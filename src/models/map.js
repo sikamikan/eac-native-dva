@@ -12,12 +12,12 @@ export default {
   reducers: {},
   subscriptions: {
     // You can use history object in subscriptions.
-    setup({ history, dispatch }) {
-      history.listen(({ pathname }) => {
-        if (pathname === "/home") {
-          alert("logged in");
-        }
-      });
-    }
+    // setup({ history, dispatch }) {
+    //   history.listen(({ pathname }) => {
+    //     if (pathname === "/home") {
+    //       alert("logged in1");
+    //     }
+    //   });
+    // }
   }
 };

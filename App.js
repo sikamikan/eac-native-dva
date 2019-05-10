@@ -2,13 +2,13 @@ import React from "react";
 import dva, { connect } from "dva";
 import { routerRedux } from "dva/router";
 import { createMemoryHistory as createHistory } from "history";
-
 import { Router, Route, Switch } from "dva/router";
-import LoginPage from "./screens/LoginPage";
-import HomePage from "./screens/HomePage";
 
-import user from "./models/user";
-import map from "./models/map";
+import LoginPage from "./src/screens/LoginPage";
+import HomePage from "./src/screens/HomePage";
+
+import user from "./src/models/user";
+import map from "./src/models/map";
 
 // DVAJS original webpage
 //https://dvajs.com/guide/getting-started.html#%E5%AE%89%E8%A3%85-dva-cli
@@ -18,13 +18,16 @@ import map from "./models/map";
 //https://github.com/DoubeBlue/react-native-dva
 
 // 1 initialize
+// https://github.com/dvajs/dva/blob/master/docs/API.md
 const app = dva({
   initialState: {},
-  //models: [user],
+  //models: [user],  << para usar esto tengo q poner un :
+  //    C:\src2\!reactNativeTests\react-native-dva\src\utils\dva.js
+  //    C:\src2\!reactNativeTests\react-native-dva\src\App.js
   history: createHistory(), // Trick !!
   //onAction: [routerMiddleware],
   onError(e, dispatch) {
-    console.log("e", e);
+    console.log("e", e, dispatch);
   }
 });
 

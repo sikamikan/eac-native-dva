@@ -1,8 +1,8 @@
-import fetch from "dva/fetch";
-import { notification } from "antd";
-import router from "umi/router";
-import auth from "@tmc/auth";
-import hash from "hash.js";
+// import fetch from "dva/fetch";
+// import { notification } from "antd";
+// import router from "umi/router";
+// import auth from "@tmc/auth";
+// import hash from "hash.js";
 
 const codeMessage = {
   200: "The server successfully returned the requested data",
@@ -27,10 +27,10 @@ const checkStatus = response => {
     return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
-  notification.error({
-    message: `Error: ${response.status}: ${response.url}`,
-    description: errortext
-  });
+  // notification.error({
+  //   message: `Error: ${response.status}: ${response.url}`,
+  //   description: errortext
+  // });
   const error = new Error(errortext);
   error.name = response.status;
   error.response = response;
@@ -63,7 +63,6 @@ const cachedSave = (response, hashcode) => {
  * @param  {object} [option] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-/* eslint-disable */
 export default function request(url, option) {
   const options = {
     ...option
@@ -73,22 +72,22 @@ export default function request(url, option) {
   // check if user is still logged before proceed.
   // if user is not logged, remove localStorage properties and redirects to user/login page
   //
-  if (!auth.isLoggedIn()) {
-    auth.logout();
-    localStorage.removeItem("optemis-authority");
-    router.push("/user/login");
-    return;
-  }
+  // if (!auth.isLoggedIn()) {
+  //   auth.logout();
+  //   localStorage.removeItem("optemis-authority");
+  //   //router.push("/user/login");
+  //   return;
+  // }
 
   /**
    * Produce fingerprints based on url and parameters
    * Maybe url has the same parameters
    */
   const fingerprint = url + (options.body ? JSON.stringify(options.body) : "");
-  const hashcode = hash
-    .sha256()
-    .update(fingerprint)
-    .digest("hex");
+  // const hashcode = hash
+  //   .sha256()
+  //   .update(fingerprint)
+  //   .digest("hex");
 
   const defaultOptions = {
     // credentials: 'include',
@@ -115,39 +114,40 @@ export default function request(url, option) {
     }
   }
 
-  return fetch(url, newOptions)
-    .then(checkStatus)
-    .then(response => cachedSave(response, hashcode))
-    .then(response => {
-      // DELETE and 204 do not return data by default
-      // using .json will report an error.
-      if (newOptions.method === "DELETE" || response.status === 204) {
-        return response.text();
-      }
-      return response.json();
-    })
-    .catch(e => {
-      const status = e.name;
-      if (status === 401) {
-        // @HACK
-        /* eslint-disable no-underscore-dangle */
-        window.g_app._store.dispatch({
-          type: "login/logout"
-        });
-        return;
-      }
-      // environment should not be used
-      if (status === 403) {
-        router.push("/exception/403");
-        return;
-      }
-      if (status <= 504 && status >= 500) {
-        router.push("/exception/500");
-        return;
-      }
-      if (status >= 404 && status < 422) {
-        router.push("/exception/404");
-      }
-    });
+  return (
+    fetch(url, newOptions)
+      .then(checkStatus)
+      //.then(response => cachedSave(response, hashcode))
+      .then(response => {
+        // DELETE and 204 do not return data by default
+        // using .json will report an error.
+        if (newOptions.method === "DELETE" || response.status === 204) {
+          return response.text();
+        }
+        return response.json();
+      })
+      .catch(e => {
+        const status = e.name;
+        if (status === 401) {
+          // @HACK
+          /* eslint-disable no-underscore-dangle */
+          window.g_app._store.dispatch({
+            type: "login/logout"
+          });
+          return;
+        }
+        // environment should not be used
+        // if (status === 403) {
+        //   router.push("/exception/403");
+        //   return;
+        // }
+        // if (status <= 504 && status >= 500) {
+        //   router.push("/exception/500");
+        //   return;
+        // }
+        // if (status >= 404 && status < 422) {
+        //   router.push("/exception/404");
+        // }
+      })
+  );
 }
-/* eslint-enable */
