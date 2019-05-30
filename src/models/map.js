@@ -1,12 +1,12 @@
-//import { getUserInformation } from "../services/api";
-import { routerRedux } from "dva/router";
+// import { getUserInformation } from "../services/api";
+import { routerRedux } from 'dva/router';
 
 export default {
-  namespace: "map",
+  namespace: 'map',
   state: {},
   effects: {
     *login(action, { put }) {
-      yield put(routerRedux.push({ pathname: "/home" }));
+      yield put(routerRedux.push({ pathname: '/home' }));
     }
   },
   reducers: {},

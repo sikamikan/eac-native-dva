@@ -1,44 +1,44 @@
-//import { getUserInformation } from "../services/api";
-import { routerRedux } from "dva/router";
-import getData from "../services/api";
+// import { getUserInformation } from "../services/api";
+import { routerRedux } from 'dva/router';
+import getData from '../services/api';
 
-//actions
-const SET_DATA = "SET_DATA";
+// actions
+const SET_DATA = 'SET_DATA';
 
 export default {
-  namespace: "user",
+  namespace: 'user',
   state: {
-    userInformation: null
+    userInformation: null,
   },
   effects: {
-    *login(_, { put }) {
-      yield put(routerRedux.push({ pathname: "/home" }));
+    * login(_, { put }) {
+      yield put(routerRedux.push({ pathname: '/home' }));
     },
-    *fetchData(_, { call, put }) {
-      console.log("effect");
+    * fetchData(_, { call, put }) {
+      console.log('effect');
 
       const response = yield call(getData);
       yield put({
         type: SET_DATA,
-        payload: response
+        payload: response,
       });
-    }
+    },
   },
   reducers: {
     [SET_DATA](state, action) {
-      console.log("reducer", action.payload.length);
+      console.log('reducer', action.payload.length);
       return {
         ...state,
-        userInformation: action.payload
+        userInformation: action.payload,
       };
-    }
+    },
   },
   subscriptions: {
     // You can use history object in subscriptions.
     setup({ history, dispatch }) {
       history.listen(({ pathname }) => {
-        if (pathname === "/home") {
-          alert("logged in2");
+        if (pathname === '/home') {
+          alert('logged in2');
           //  dispatch({
           //   type: 'users/fetch',
           // });
@@ -48,11 +48,11 @@ export default {
     setup2({ history, dispatch }) {
       history.listen(({ userInformation }) => {
         if (userInformation) {
-          alert("cargado");
+          alert('cargado');
         }
       });
-    }
-  }
+    },
+  },
 };
 
 // Routing by action
