@@ -6,17 +6,18 @@
 //https://github.com/DoubeBlue/react-native-dva
 // https://github.com/dvajs/dva/blob/master/docs/API.md
 
-import React from "react";
-import dva, { connect } from "dva";
-import { routerRedux } from "dva/router";
-import { createMemoryHistory as createHistory } from "history";
-import { Router, Route, Switch } from "dva/router";
+import React from 'react';
+import dva, { connect } from 'dva';
+import { routerRedux } from 'dva/router';
+import { createMemoryHistory as createHistory } from 'history';
+import { Router, Route, Switch } from 'dva/router';
 
-import LoginPage from "./src/screens/LoginPage";
-import HomePage from "./src/screens/HomePage";
+import LoginPage from './src/screens/LoginPage';
+import HomePage from './src/screens/HomePage';
 
-import user from "./src/models/user";
-import map from "./src/models/map";
+import navigate from './src/models/navigate';
+import user from './src/models/user';
+import map from './src/models/map';
 
 // 1 Initialize
 const app = dva({
@@ -26,7 +27,7 @@ const app = dva({
   //    C:\src2\!reactNativeTests\react-native-dva\src\App.js
   history: createHistory(), // Trick !!
   onError(e, dispatch) {
-    console.log("e", e, dispatch);
+    console.log('e', e, dispatch);
   }
 });
 
@@ -34,6 +35,7 @@ const app = dva({
 // app.use({});
 
 //3 add models
+app.model(navigate);
 app.model(user);
 app.model(map);
 
