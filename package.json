@@ -16,7 +16,7 @@
   "dependencies": {
     "@expo/samples": "2.1.1",
     "dva": "^2.4.1",
-    "expo": "^32.0.0",
+    "expo": "^46.0.14",
     "native-base": "^2.12.1",
     "react": "16.5.0",
     "react-dom": "^16.8.6",
